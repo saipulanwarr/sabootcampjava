@@ -63,8 +63,8 @@ public class Exercise {
 
         String result = "";
 
-        for(int i = 0; i < descArr.length; i++){
-            result = result + descArr[i] + ",";
+        for(Integer s : descArr){
+            result = result + s + ",";
         }
 
         return result;

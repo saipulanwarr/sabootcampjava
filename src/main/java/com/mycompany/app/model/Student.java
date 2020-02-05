@@ -11,11 +11,9 @@ public class Student extends Person{
         this.title = title;
     }
 
-    public void learn(String... courseName){
-        for(int i = 0; i < courseName.length; i++){
-            level++;
-            System.out.println("Learn : " + courseName[i]);
-        }
+    public void learn(String courseName){
+        level++;
+        System.out.println("Learn : " + courseName);
     }
 
     @Override

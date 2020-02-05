@@ -11,19 +11,17 @@ public class Lecturer {
         return name;
     }
 
-    public void teach(String... courseName){
-        for(int i = 0; i < courseName.length; i++){
-            if(courseName[i] == "Java"){
-                setName("Dr. Java S.KOM");
-            }else if(courseName[i] == "React"){
-                setName("Dr. React S.KOM");
-            }else if(courseName[i] == "Node JS"){
-                setName("Dr. Node JS S.KOM");
-            }else{
-                setName("");
-            }
-
-            System.out.println("Lecturer : " + getName());
+    public void teach(String courseName){
+        if(courseName == "Java"){
+            setName("Java");
+        }else if(courseName == "React"){
+            setName("React");
+        }else if(courseName == "Node JS"){
+            setName("Node");
+        }else{
+            setName("");
         }
+
+        System.out.println("Lecturer : " + getName());
     }
 }
