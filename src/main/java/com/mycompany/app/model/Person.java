@@ -27,7 +27,11 @@ public class Person {
         return firstName + " " + lastName;
     }
 
-    public void calculateBmi(){
-        
+    public String getFirstName(){
+        return firstName;
+    }
+
+    public String getLastName(){
+        return lastName;
     }
 }
