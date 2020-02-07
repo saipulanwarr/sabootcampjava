@@ -8,7 +8,6 @@ public class ExerciseOne {
     private String nameDuplicate;
 
    public ExerciseOne(){
-       String result = "";
        List<String> list = new ArrayList<>();
        list.add("Roni");
        list.add("Dana");
@@ -20,9 +19,7 @@ public class ExerciseOne {
        list.add("Fakri");
        list.add("Exit");
 
-       for(String s : list){
-           result = result + s + ",";
-       }
+       String result = convertToString(list);
 
        if(list.contains("Exit")){
            System.out.print("Input set of String : " + result + "\n");
@@ -45,24 +42,14 @@ public class ExerciseOne {
        }
 
        getNameDuplicate(duplicateList);
-
-       String result = "";
-
-       for(String e : newList){
-            result = result + e + ",";
-       }
+       String result = convertToString(newList);
 
        return result;
    }
 
    private String getNameDuplicate(List<String> list){
 
-       String result = "";
-
-       for(String s : list){
-           result = result + s + ",";
-       }
-
+       String result = convertToString(list);
        setNameDuplicate(result);
 
        return result;
@@ -70,6 +57,13 @@ public class ExerciseOne {
 
    private String setNameDuplicate(String name){
        return this.nameDuplicate = name;
+   }
+
+   private String convertToString(List<String> list){
+       String idList = list.toString();
+       String csv = idList.substring(1, idList.length() - 1).replace(", ", ",");
+
+       return csv;
    }
 
    public static void main(String[] args){
