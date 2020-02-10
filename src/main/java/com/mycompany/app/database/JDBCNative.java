@@ -8,11 +8,25 @@ public class JDBCNative {
     public JDBCNative(){
         try{
             c = createConnection();
-//            insertBankAccount("Saipul", "3123123");
-            selectBankAccount();
-            updateBankAccount("Jihan Pahira", "3123123");
+//            insertBankAccount("kuhaku", "3123123");
+//            selectBankAccount();
+            updateBankAccount("Kuhaku", "3123123");
             System.out.println("After update");
             selectBankAccount();
+
+              //add saldo
+//            addSaldoAccount("3123124", 50000);
+//            System.out.println("After update saldo");
+//            selectBankAccount();
+
+            //transfer
+            transfer("3123124", "3123123", 4000);
+            System.out.println("After transfer");
+            selectBankAccount();
+
+//            deleteInvalidAccountNumber();
+//            System.out.println("After Delete");
+//            selectBankAccount();
 
         }catch (SQLException e){
             e.printStackTrace();
@@ -37,11 +51,9 @@ public class JDBCNative {
 
     private int insertBankAccount(String ownerName, String accountNumber) throws SQLException {
         Statement stat = c.createStatement();
-        StringBuffer sb = new StringBuffer("INSERT INTO bank_account (account_number, owner_name, saldo) VALUES ")
+        StringBuffer sb = new StringBuffer("INSERT INTO bank_account (account_number, owner_name) VALUES ")
                 .append("(")
                 .append("'").append(accountNumber).append("'")
-                .append(",")
-                .append("'").append(ownerName).append("'")
                 .append(",")
                 .append("'").append(ownerName).append("'")
                 .append(")");
@@ -50,13 +62,14 @@ public class JDBCNative {
 
     private void selectBankAccount() throws SQLException {
         Statement stat = c.createStatement();
-        ResultSet resultSet = stat.executeQuery("SELECT id, account_number, owner_name FROM bank_account");
+        ResultSet resultSet = stat.executeQuery("SELECT id, account_number, owner_name, saldo FROM bank_account");
         while (resultSet.next()){
             int id = resultSet.getInt("id");
             String accountNumber = resultSet.getString("account_number");
             String ownerName = resultSet.getString("owner_name");
+            double saldo = resultSet.getDouble("saldo");
 
-            System.out.printf("%d - %s - %s \n", id, accountNumber, ownerName);
+            System.out.printf("%d - %s - %s - %f \n", id, accountNumber, ownerName, saldo);
         }
     }
 
@@ -67,6 +80,22 @@ public class JDBCNative {
                 .append("where account_number = '").append(accountNumber).append("'");
         return stat.executeUpdate(sb.toString());
     }
+
+    private int deleteInvalidAccountNumber() throws SQLException {
+        Statement stat = c.createStatement();
+        StringBuffer sb = new StringBuffer("DELETE FROM bank_account WHERE account_number = 'null' ");
+        return stat.executeUpdate(sb.toString());
+    }
+
+    private int addSaldoAccount(String accountNumber, double saldo) throws SQLException {
+        Statement stat = c.createStatement();
+        StringBuffer sb = new StringBuffer("UPDATE bank_account SET")
+                .append(" saldo = '").append(saldo).append("'")
+                .append(" WHERE account_number = '").append(accountNumber).append("'");
+        System.out.println(sb);
+        return stat.executeUpdate(sb.toString());
+    }
+
 
     private String createTransferSQL(String accountNumber, double amount, boolean from){
         StringBuffer sb = new StringBuffer("UPDATE bank_account SET ")
@@ -81,6 +110,7 @@ public class JDBCNative {
         String fromStr = createTransferSQL(from, amount, true);
         String toStr = createTransferSQL(to, amount, false);
         stat.executeUpdate(fromStr);
+
         stat.executeUpdate(toStr);
         c.commit();
         return true;
